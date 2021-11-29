@@ -18,7 +18,7 @@ int main(){
     int done[n] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
     // for(int i=0;i<n;i++){
-    //     cin >> dish[i];
+        cin >> dish[i];
     //     done[i] = 0;
     // }
 
