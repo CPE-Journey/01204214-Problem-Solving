@@ -18,14 +18,12 @@ int main(){
         }
         knock[i] = 0;
     }
-    // cout << max_speed << "\n";
-    for(int r=1;r<=k+1;r++){
-        for(int i=0;i<n;i++){
-            if(!knock[i] && (time[i]*r/max_speed)-r > 1){
-                knock[i] = 1;
-                player_left--;
-                // cout << "Player Out: " << i+1 << " at Round " << r << "\n";
-            }
+
+    int limit = max_speed*k/(k-1);
+
+    for(int i=0;i<n;i++){
+        if(time[i] >= limit){
+            player_left--;
         }
     }
     cout << player_left;

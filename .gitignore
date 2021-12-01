@@ -1,4 +1,5 @@
 .dist/
 .vscode/
 *.exe
+*tempCodeRunnerFile.cpp
 *tempCodeRunnerFile.exe
