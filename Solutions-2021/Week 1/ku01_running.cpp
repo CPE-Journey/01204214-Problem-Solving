@@ -4,7 +4,7 @@ using namespace std;
 int main(){
     ios::sync_with_stdio(false);
     cin.tie(NULL);
-    int n,k;
+    long int n,k;
     cin >> n >> k;
     int player_left = n;
     long int time[n];// = {6,7,15,9,11};
@@ -19,10 +19,11 @@ int main(){
         knock[i] = 0;
     }
 
-    int limit = max_speed*k/(k-1);
+    long int limit = max_speed*k;
 
     for(int i=0;i<n;i++){
-        if(time[i] >= limit){
+        if(time[i]==max_speed) continue;
+        if(k - limit/time[i] > 1 || limit%time[i] == 0){
             player_left--;
         }
     }
