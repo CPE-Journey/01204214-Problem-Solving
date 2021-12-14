@@ -21,18 +21,10 @@ bool alreadyIn(string word,string *prefix,int n){
     return false;
 }
 
-int len(string str){
-    int l = 0;
-    while(str[l] != '\0'){
-        l++;
-    }
-    return l;
-}
-
 int main(){
     int n;
     cin >> n;
-    string text[n]; // = {"hi","hello","lol","hills","hill"};
+    string text[n];
     string prefix[n];
 
     for(int i=0;i<n;i++){
@@ -54,8 +46,7 @@ int main(){
         }
         typing += "\0";
         prefix[i] = typing;
-        sum_len += len(typing);
-        cout << j << " " << typing << " " << "\n";
+        sum_len += typing.length();
     }
     cout << sum_len;
     return 0;

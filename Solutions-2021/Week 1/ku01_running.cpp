@@ -7,8 +7,7 @@ int main(){
     long int n,k;
     cin >> n >> k;
     int player_left = n;
-    long int time[n];// = {6,7,15,9,11};
-    int knock[n];// = {0,0,0,0,0};
+    long int time[n];
 
     long int max_speed = 2000000000;
     for(int i=0;i<n;i++){
@@ -16,7 +15,6 @@ int main(){
         if(time[i] < max_speed){
             max_speed = time[i];
         }
-        knock[i] = 0;
     }
 
     long int limit = max_speed*k;
@@ -28,4 +26,5 @@ int main(){
         }
     }
     cout << player_left;
+    return 0;
 }

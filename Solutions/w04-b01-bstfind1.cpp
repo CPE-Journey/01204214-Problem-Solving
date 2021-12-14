@@ -15,6 +15,23 @@ BSTree *createNode(int value){
     return t;
 }
 
-int main(){
+BSTree *insert(BSTree *t,int value){
+    if(t==NULL){
+        return createNode(value);
+    }
+    else if(t->data > value){
+        t->left = insert(t->left,value);
+    }
+    else{
+        t->right = insert(t->right,value);
+    }
+}
 
+int main(){
+    BSTree *t = createNode(5);
+    t = insert(t,3);
+    t = insert(t,10);
+    cout << t->left->data << "\n";
+    // cout << t->left << "\n";
+    // cout << t->right << "\n";
 }
