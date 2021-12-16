@@ -5,29 +5,51 @@ using namespace std;
 int main() {
     int N,coach,current;
     list<int> station;
-    cin >> N;
-
-    current = 1;
-    for(int i=1;i<=N;i++){
-        cin >> coach;
-        if(!station.empty() && station.back()==coach){
-            cout << "Pop" << coach << "\n";
-            station.pop_back();
+    bool reset;
+    while(true){
+        reset = false;
+        cin >> N;
+        if(N==0){
+            break;
         }
-        else{
-            for(int j=current;j<=N;j++){
-                if(current == coach){
+        while(true){
+            current = 1;
+            while(!station.empty()){
+                station.pop_back();
+            }
+            for(int i=1;i<=N;i++){
+                cin >> coach;
+                if(coach == 0){
+                    cout << "\n";
+                    reset = true;
                     break;
                 }
-                cout << "Push " << current << "\n";
-                station.push_back(current++);
+                if(!station.empty() && station.back()==coach){
+                    station.pop_back();
+                }
+                else{
+                    for(int j=current;j<=N;j++){
+                        if(coach == j){
+                            current++;
+                            break;
+                        }
+                        station.push_back(j);
+                        current++;
+                    }
+                    
+                }
+            }
+            if(reset){
+                break;
+            }
+            else if(station.empty()){
+                cout << "Yes\n";
+            }
+            else{
+                cout << "No\n";
             }
         }
     }
-    if(!station.empty()){
-        cout << "Yes\n";
-    }
-    else{
-        cout << "No\n";
-    }
+    cout << "\n";
+    return 0;
 };
