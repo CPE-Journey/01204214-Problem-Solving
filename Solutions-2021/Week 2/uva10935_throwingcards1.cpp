@@ -23,7 +23,10 @@ void throwingCard(int n){
         deck.push_back(deck.front());
         deck.pop_front();
     }
-    cout << "Discarded cards: ";
+    cout << "Discarded cards:";
+    if(n!=1){
+        cout << " ";
+    }
     for(int i=0;i<discarded.size();i++){
         cout << discarded[i];
         if(i != discarded.size()-1){
