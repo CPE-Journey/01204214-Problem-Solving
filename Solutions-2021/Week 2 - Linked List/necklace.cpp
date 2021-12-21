@@ -17,6 +17,7 @@ void printList(vector<list<int>> List){
 void printHead(vector<int> head){
     cout << "HEADLIST: ";
     for(int i=0;i<head.size();i++){
+        
         cout << head[i] << " ";
     }
     cout << "\n";
