@@ -2,11 +2,6 @@
 #include <vector>
 using namespace std;
 
-typedef struct{
-    int data;
-    int number;
-}Player;
-
 vector<int> getWinner(vector<int> v,int round){
     vector<int> rtn;
     int max_value = 0,max_index = 0;
