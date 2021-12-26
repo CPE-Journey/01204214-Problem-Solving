@@ -2,10 +2,12 @@
 #include <vector>
 using namespace std;
 
+
+
 int main(){
-    int N,A,B,input,count = 0;
+    long long int N,A,B,input,count = 0;
     cin >> N >> A >> B;
-    vector<int> price;
+    vector<long int> price;
 
     for(int i=0;i<N;i++){
         cin >> input;
