@@ -33,7 +33,7 @@ void printWinner(vector<vector<int>> v){
         cout << firstA[1] << " " << firstB[1] << " ";
     }
     else{
-        cout << firstB[1] << " " << firstB[0] << " ";
+        cout << firstB[1] << " " << firstA[1] << " ";
     }
     cout << secondA << " " << secondB << "\n";
 }
@@ -52,6 +52,9 @@ int main(){
         }
         winner.push_back(getWinner(coder,i));
     }
+    // for(int i=0;i<4;i++){
+    //     cout << winner[i][0] << " " << winner[i][1]  << "\n";
+    // }
     printWinner(winner);
     return 0;
 }
