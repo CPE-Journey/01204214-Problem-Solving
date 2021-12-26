@@ -15,14 +15,8 @@ int main(){
         cin >> input;
         
         if(input < min_height){
-            if(i != 0){
-                minValue.push_back(min_height);
-                minIndex.push_back(i);
-            }
-            if(i == N-1){
-                minValue.push_back(input);
-                minIndex.push_back(i+1);
-            }
+            minValue.push_back(input);
+            minIndex.push_back(i);
             min_height = input;
         }
     }
