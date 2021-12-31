@@ -4,28 +4,12 @@
 using namespace std;
 
 int N,R,x,y,deq;
+
 vector<vector<int>> graph;
 vector<vector<int>> node;
 
 vector<int> visit;
 list<int> queue;
-
-void printGraph(vector<vector<int>> v){
-    for(int i=0;i<v.size();i++){
-        cout << i << ": ";
-        for(int j=0;j<v[i].size();j++){
-            cout << v[i][j] << " ";
-        }
-        cout << "\n";
-    }
-}
-
-void printVector(vector<int> v){
-    for(int i=0;i<v.size();i++){
-        cout << v[i] << " ";
-    }
-    cout << "\n";
-}
 
 int distance(int x1,int y1,int x2,int y2){
     return (x1-x2)*(x1-x2) + (y1-y2)*(y1-y2);
@@ -73,4 +57,5 @@ int main(){
     }
 
     cout << shortestPath();
+    return 0;
 }
