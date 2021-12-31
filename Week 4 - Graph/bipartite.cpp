@@ -3,22 +3,27 @@
 #include <list>
 using namespace std;
 
-void printGraph(vector<vector<int>> v){
-    for(int i=0;i<v.size();i++){
-        cout << i << ": ";
-        for(int j=0;j<v[i].size();j++){
-            cout << v[i][j] << " ";
-        }
-        cout << "\n";
-    }
-}
+// Bonus Testcase (From ADT Week 13 Slide)
+// 1
+// 9 11
+// 1 2
+// 1 6
+// 2 7
+// 6 7
+// 6 5
+// 5 9
+// 2 8
+// 8 9
+// 8 3
+// 9 4
+// 3 4
 
 string bipartie(){
     int N,M,v1,v2,deq,toggle=0;
     cin >> N >> M;
     vector<vector<int>> graph(N);
     vector<vector<int>> team;
-    team.resize(N,vector<int>(2));
+    team.resize(2,vector<int>(N));
 
     vector<int> visit(N);
     list<int> queue;
@@ -32,25 +37,24 @@ string bipartie(){
     }
 
     queue.push_back(0);
-    visit[0] = 1;
+    team[1][0] = 1;
     while(!queue.empty()){
         deq = queue.front();
-        // cout << deq << " ";
         queue.pop_front();
+
+        toggle = team[0][deq] ? 0 : 1; // First Time ALways 1
+        visit[deq] = 1;
 
         for(int i=0;i<graph[deq].size();i++){
             if(visit[graph[deq][i]]){
-                if(team[!toggle][graph[deq][i]]){
+                if(team[toggle][graph[deq][i]]){
                     return "no";
                 }
                 continue;
             }
             queue.push_back(graph[deq][i]);
-            visit[graph[deq][i]] = 1;
-            team[toggle][graph[deq][i]] = 1;
+            team[!toggle][graph[deq][i]] = 1;
         }
-
-        toggle = !toggle;
     }
     return "yes";
 }
