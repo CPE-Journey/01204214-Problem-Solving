@@ -1,7 +1,6 @@
 #include <iostream>
 #include <vector>
 using namespace std;
-// Test
 vector<int> visit;
 
 void printVector(vector<int> v){
@@ -12,11 +11,9 @@ void printVector(vector<int> v){
 }
 
 void DFS(vector<vector<int>> graph,int start){
-    // cout << start << " ";
+    if(visit[start]) return;
     visit[start] = 1;
-    // printVector(visit);
     for(int i=0;i<graph[start].size();i++){
-        if(visit[graph[start][i]]) continue;
         DFS(graph,graph[start][i]);
     }
 }
