@@ -3,21 +3,6 @@
 #include <list>
 using namespace std;
 
-// Bonus Testcase (From ADT Week 13 Slide)
-// 1
-// 9 11
-// 1 2
-// 1 6
-// 2 7
-// 6 7
-// 6 5
-// 5 9
-// 2 8
-// 8 9
-// 8 3
-// 9 4
-// 3 4
-
 string bipartie(){
     int N,M,v1,v2,deq,toggle=0;
     cin >> N >> M;
