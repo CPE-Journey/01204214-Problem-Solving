@@ -1,6 +1,6 @@
 .dist/
 .vscode/
 *.exe
-Misc
+misc
 *tempCodeRunnerFile.cpp
 *tempCodeRunnerFile.exe

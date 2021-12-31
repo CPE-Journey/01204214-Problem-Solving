@@ -21,4 +21,4 @@
 8 3
 9 4
 3 4
-(From ADT Side 13 "Graph ADT")
+(Cr. Abstract Data Type [2021] "Graph ADT" : Page 57)
