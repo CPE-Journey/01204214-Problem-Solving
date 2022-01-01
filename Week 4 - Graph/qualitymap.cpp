@@ -8,16 +8,6 @@ bool foundOre,foundForest;
 vector<vector<char>> map;
 vector<vector<int>> visit;
 
-void printGraph(vector<vector<int>> v){
-    for(int i=0;i<v.size();i++){
-        cout << i << ": ";
-        for(int j=0;j<v[i].size();j++){
-            cout << v[i][j] << " ";
-        }
-        cout << "\n";
-    }
-}
-
 void travel(int si,int sj){
     if(map[si][sj] == '#' || visit[si][sj]) return;
     else if(map[si][sj] == '$'){
