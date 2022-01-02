@@ -40,6 +40,6 @@ int main(){
         count++;
     }
     
-    cout << count;
+    cout << count << "\n";
     return 0;
 }
