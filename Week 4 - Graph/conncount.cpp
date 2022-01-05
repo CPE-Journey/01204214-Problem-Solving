@@ -10,6 +10,13 @@ void printVector(vector<int> v){
     cout << "\n";
 }
 
+void showVisit(){
+    for(int i=0;i<visit.size();i++){
+        cout << visit[i] << " ";
+    }
+    cout << "\n";
+}
+
 void DFS(vector<vector<int>> graph,int start){
     if(visit[start]) return;
     visit[start] = 1;
@@ -38,6 +45,7 @@ int main(){
         if(visit[i]) continue;
         DFS(graph,i);
         count++;
+        showVisit();
     }
     
     cout << count << "\n";
