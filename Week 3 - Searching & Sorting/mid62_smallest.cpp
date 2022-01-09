@@ -26,11 +26,13 @@ int main(){
     order.push_back(N+1);
     height.push_back(0);
     
-    // for(int i=0;i<height.size()/2;i++){
-    //     tmp = height[i];
-    //     height[i] = height[height.size()-1-i];
-    //     height[height.size()-1-i] = tmp;
-    // }
+    // reverse(height.begin(),height.end());
+
+    for(int i=0;i<height.size()/2;i++){
+        tmp = height[i];
+        height[i] = height[height.size()-1-i];
+        height[height.size()-1-i] = tmp;
+    }
 
     // sort(height.begin(),height.end());
     // for(int i=0;i<N;i++){

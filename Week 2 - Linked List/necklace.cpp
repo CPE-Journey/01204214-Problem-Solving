@@ -3,6 +3,10 @@
 #include <vector>
 using namespace std;
 
+vector<list<int>> necklace;
+vector<int> head;
+vector<int> inFront;
+
 void printList(vector<list<int>> List){
     cout << "----------\n";
     for(int i=0;i<List.size();i++){
@@ -14,58 +18,75 @@ void printList(vector<list<int>> List){
     }
 }
 
-void printHead(vector<int> head){
-    cout << "HEADLIST: ";
-    for(int i=0;i<head.size();i++){
-        
-        cout << head[i] << " ";
+// int updateHead(int start){
+//     if(inFront[start]){
+//         return start;
+//     }
+//     head[start] = updateHead(head[start]);
+// }
+
+void printVector(vector<int> v){
+    for(int i=0;i<v.size();i++){
+        cout << v[i] << " ";
     }
     cout << "\n";
 }
 
-int getHead(vector<int> v,vector<int> exist,int self){
-    if(self==v[self] || !exist[self]){
+int getHead(int self){
+    if(self==head[self]){
         return self;
     }
-    v[self] = getHead(v,exist,v[self]);
-    cout << self << " Are Now " << v[self] << "\n";
-    return self;
-    // return getHead(v,v[self]);
+    int rtn = getHead(head[self]);
+    // cout << "RTN: " << rtn << "\nBefore: ";
+    // cout << head[self] << " After: ";
+    head[self] = rtn;
+    // cout << head[self] << "\n";
+    return rtn;
 }
 
 int main(){
+    // head = {0,0,1,2,3};
+    // cout << getHead(4);
+    // printVector(head);
     int N,inserter,inserted,hp,recent;
+
     cin >> N;
-    vector<list<int>> necklace(N);
-    vector<int> head;
-    vector<int> exist;
+
+    necklace.resize(N);
 
     for(int i=0;i<N;i++){
         necklace[i].push_back(i+1);
         head.push_back(i);
-        exist.push_back(1);
+        inFront.push_back(-1);
     }
 
     for(int i=0;i<N-1;i++){
         cin >> inserter >> inserted;
         inserter--;
         inserted--;
-        hp = getHead(head,exist,inserted);
-        cout << "HEADPOINT: " << hp << "\n";
+        // printVector(head);
+        hp = getHead(inserted);
         for(auto j=necklace[hp].begin();j!=necklace[hp].end();++j){
             if (*j == inserted+1){
                 necklace[hp].splice(++j,necklace[inserter]);
                 break;
             }
         }
-        // cout << "Before" << head[inserter];
-        exist[inserter] = 0;
+        // inFront[inserter] = inserted;
+        // printVector(inFront);
         head[inserter] = head[inserted];
-        // cout << " After " << head[inserter] << "\n";
-        printList(necklace);
-        printHead(head);
+        // updateHead(inserter);
+        // printVector(inFront);
+        // printVector(head);
+        // cout << "\n";
+        // updateHead();
+        // printList(inFront);
     }
-    cout << hp;
+
+    // printVector(head);
+    // updateHead();
+    // printVector(inFront);
+
     for(auto i:necklace[hp]){
         cout << i << " ";
     }
