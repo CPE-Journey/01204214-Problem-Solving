@@ -14,6 +14,6 @@ int main(){
             current = (current+1)%len;
         }
     }
-
     cout << count;
+    return 0;
 }
