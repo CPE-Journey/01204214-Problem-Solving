@@ -17,18 +17,16 @@ int main(){
     cin >> N;
     for(int i=0;i<N;i++){
         cin >> t1 >> t2;
-        work.push_back(make_pair(t1,t2));
+        work.push_back(make_pair(t2,t1));
     }
 
     sort(work.begin(),work.end());
-    cout<<"\n";
-    // printVector(work);
 
-    current = work[0].second;
+    current = work[0].first;
     for(int i=0;i<work.size();i++){
-        if(work[i].second > current && work[i].first >= current){
+        if(work[i].second >= current){
             work_count++;
-            current = work[i].second;
+            current = work[i].first;
         }
     }
 
