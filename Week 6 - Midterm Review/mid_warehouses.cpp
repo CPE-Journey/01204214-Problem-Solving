@@ -1,29 +1,33 @@
 #include <iostream>
-#include <vector>
 #include <list>
+#include <vector>
 using namespace std;
 
-int N,M,K,v1,v2,pathFound,deq;
+int N,M,K,v1,v2,pathFound;
 vector<vector<int>> path;
 vector<int> visit;
-list<int> Queue;
+list<int> Stack;
 
-int BFS(int start,int end){
-    Queue.push_back(start);
+void DFS(int start,int end){
     visit[start] = 1;
-    while(!Queue.empty()){
-        deq = Queue.front();
-        Queue.pop_front();
-        for(int i=0;i<path[deq].size();i++){
-            if(path[deq][i] == end){
-                return 1;
-            }
-            else if(visit[path[deq][i]]) continue;
-            visit[path[deq][i]] = 1;
-            Queue.push_back(path[deq][i]);
+    Stack.push_back(start);
+    for(int i=0;i<path[start].size();i++){
+        if(path[start][i] == end){
+            pathFound = 1;
+            return;
         }
+        else if(visit[path[start][i]]) continue;
+        DFS(path[start][i],end);
     }
-    return 0;
+}
+
+int findPath(int start,int end){
+    pathFound = 0;
+    for(int i=0;i<N;i++){
+        visit[i] = 0;
+    }
+    DFS(start,end);
+    return pathFound;
 }
 
 void printPath(){
@@ -49,7 +53,11 @@ int main(){
 
     for(int i=0;i<K;i++){
         cin >> v1 >> v2;
-        cout << BFS(v1-1,v2-1) << "\n";
+        cout << findPath(v1-1,v2-1) << "\n";
+        while(!Stack.empty()){
+            visit[Stack.back()] = 0;
+            Stack.pop_back();
+        }
     }
     return 0;
 }
