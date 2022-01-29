@@ -18,13 +18,6 @@ void printList(vector<list<int>> List){
     }
 }
 
-// int updateHead(int start){
-//     if(inFront[start]){
-//         return start;
-//     }
-//     head[start] = updateHead(head[start]);
-// }
-
 void printVector(vector<int> v){
     for(int i=0;i<v.size();i++){
         cout << v[i] << " ";
@@ -37,17 +30,11 @@ int getHead(int self){
         return self;
     }
     int rtn = getHead(head[self]);
-    // cout << "RTN: " << rtn << "\nBefore: ";
-    // cout << head[self] << " After: ";
     head[self] = rtn;
-    // cout << head[self] << "\n";
     return rtn;
 }
 
 int main(){
-    // head = {0,0,1,2,3};
-    // cout << getHead(4);
-    // printVector(head);
     int N,inserter,inserted,hp,recent;
 
     cin >> N;
@@ -64,7 +51,6 @@ int main(){
         cin >> inserter >> inserted;
         inserter--;
         inserted--;
-        // printVector(head);
         hp = getHead(inserted);
         for(auto j=necklace[hp].begin();j!=necklace[hp].end();++j){
             if (*j == inserted+1){
@@ -72,20 +58,8 @@ int main(){
                 break;
             }
         }
-        // inFront[inserter] = inserted;
-        // printVector(inFront);
         head[inserter] = head[inserted];
-        // updateHead(inserter);
-        // printVector(inFront);
-        // printVector(head);
-        // cout << "\n";
-        // updateHead();
-        // printList(inFront);
     }
-
-    // printVector(head);
-    // updateHead();
-    // printVector(inFront);
 
     for(auto i:necklace[hp]){
         cout << i << " ";
