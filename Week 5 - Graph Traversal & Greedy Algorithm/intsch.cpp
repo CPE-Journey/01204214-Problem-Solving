@@ -5,7 +5,7 @@ using namespace std;
 
 int N,i,work_count=1;
 long long int current,t1,t2;
-vector<pair<long long int,long long int>> work;
+vector<pair<int,int>> work;
 
 int main(){
     cin >> N;
