@@ -35,7 +35,6 @@ int main(){
         if(level == N)
             break;
     }
-
     cout << level << "\n";
     return 0;
 }
