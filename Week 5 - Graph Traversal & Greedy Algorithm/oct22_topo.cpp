@@ -5,14 +5,12 @@ using namespace std;
 
 int N,M,v1,v2,deq;
 vector<vector<int>> graph;
-vector<int> visit;
 vector<int> degree;
 list<int> queue;
 
 int main(){
     cin >> N >> M;
     graph.resize(N);
-    visit.resize(N);
     degree.resize(N);
 
     for(int i=0;i<M;i++){

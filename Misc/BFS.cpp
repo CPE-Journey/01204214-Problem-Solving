@@ -16,7 +16,7 @@ void BFS(int start,int end){
         Queue.pop_front();
 
         for(int i=0;i<graph[x].size();i++){
-            if(visit[graph[x][i]])  continue;
+            if(visit[graph[x][i]]) continue;
             Queue.push_back(graph[x][i]);
             visit[graph[x][i]] = 1;
         }
