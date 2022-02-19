@@ -1,5 +1,10 @@
-import json
+white_on_green = '\033[37;42m'
+white_on_yellow = '\033[34;43m'
+normal = '\033[0;0m'
 
-
-with open('2021-12-02-โควิด-19.json','w',encoding='utf-8') as f:
-    json.dump("Test",f)
+ch1 = '1'
+ch2 = white_on_green + '2' + normal
+ch3 = white_on_yellow + '3' + normal
+ch4 = '4'
+ch5 = white_on_yellow + '5' + normal
+print(ch1 + ch2 + ch3 + ch4 + ch5)
