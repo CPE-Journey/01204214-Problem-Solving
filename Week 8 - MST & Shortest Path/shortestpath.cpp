@@ -2,18 +2,12 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int N,M,A,B,W,remain,node,dist,currentDistance;
+int N,M,A,B,W,remain,node,currentDistance,dist;
 
 vector<vector<int>> graph;
-priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> shortest; // Distance , Node
-vector<int> visited;
+priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> heap; // Distance , Node
+vector<int> visited,shortest;
 pair<int,int> selected;
-
-// void printHeap(){
-//     for(int i=0;i<N;i++){
-//         printf("(%d, %d) ",shortest[i].first,shortest[i].second);
-//     }
-// }
 
 int Min(int a,int b){
     return a < b ? a : b;
@@ -22,6 +16,8 @@ int Min(int a,int b){
 int main(){
     cin >> N >> M;
     graph.resize(N,vector<int>(N));
+    // visited.resize(N);
+    // dist.resize(N);
 
     for(int i=0;i<M;i++){
         cin >> A >> B >> W;
@@ -31,22 +27,29 @@ int main(){
     
     for(int i=0;i<N;i++){
         visited.push_back(0);
-        shortest.push(make_pair(1001,i));
+        shortest.push_back(0);
+        heap.push(make_pair(1001,i));
     }
 
     remain = N;
     while(remain != 0){
-        selected = shortest.top();
-        shortest.pop();
+        selected = heap.top();
+        heap.pop();
 
         node = selected.second;
         dist = selected.first;
-
-        for(int i=0;i<N;i++){
-            currentDistance = graph[node][i];
-            if(currentDistance+dist)
+        
+        visited[node] = 1;
+        for(int i=0;i<graph[node].size();i++){
+            if(!visited[graph[node][i]]){
+                visited[graph[node][i]] = 1;
+                // push อันใหม่เข้าไปเล้ยยยย
+            }
         }
 
+        remain--;
+
+        cout << node << " " << dist << "\n";
     }
     
 }
