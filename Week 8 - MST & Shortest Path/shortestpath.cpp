@@ -27,29 +27,43 @@ int main(){
     
     for(int i=0;i<N;i++){
         visited.push_back(0);
-        shortest.push_back(0);
-        heap.push(make_pair(1001,i));
+        shortest.push_back(i==0 ? 0 :1001);
+        heap.push(make_pair(i==0 ? 0 :1001,i));
     }
+    // shortest[0] = 0;
 
-    remain = N;
-    while(remain != 0){
+    remain = N-1;
+    for(int a=0;a<N;a++){
         selected = heap.top();
         heap.pop();
 
         node = selected.second;
         dist = selected.first;
+
+        // cout << node << " " << dist << "\n";
         
         visited[node] = 1;
-        for(int i=0;i<graph[node].size();i++){
-            if(!visited[graph[node][i]]){
-                visited[graph[node][i]] = 1;
-                // push อันใหม่เข้าไปเล้ยยยย
-            }
-        }
-
         remain--;
-
-        cout << node << " " << dist << "\n";
+        for(int i=0;i<graph[node].size();i++){
+            if(graph[node][i] && !visited[i] && node != i){
+                // cout << "New!\n";
+                shortest[i] = Min(shortest[i],shortest[node]+graph[node][i]);
+                heap.push(make_pair(Min(dist,shortest[node]+graph[node][i]),i));
+            }
+            for(int i=0;i<N;i++){
+                // cout << shortest[i] << " ";
+            }
+            // cout << "\n\n";
+        }
     }
+        cout << shortest[N-1] << "\n";
+    
+    // while(!heap.empty()){
+    //     selected = heap.top();
+    //     heap.pop();
+    //     node = selected.second;
+    //     dist = selected.first;
+    //     cout << node << " " << dist << "\n";
+    // }
     
 }
