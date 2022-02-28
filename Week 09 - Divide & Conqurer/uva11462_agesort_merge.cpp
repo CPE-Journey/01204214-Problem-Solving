@@ -42,7 +42,7 @@ void merge(int l,int m,int r){
         age[k] = right_age[j];
         j++;k++;
     }
-    printAge();
+    // printAge();
 }
 
 void mergeSort(int l,int r){
