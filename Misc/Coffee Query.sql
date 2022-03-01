@@ -121,3 +121,51 @@ WHERE NOT EXISTS (
     WHERE M.MemberID = O.MemberID 
 );
 
+--TODO --------------------------------------------------------------------
+
+--! 1 ---------------------------------------------------------------------
+SELECT MenuName
+FROM Membership AS MB, CustomerOrder AS C, OrderList AS O, Menu AS M
+WHERE MB.MemberID = C.MemberID and C.CustOrderID = O.CustOrderID and O.MenuID = M.MenuID and C.MemberID IN (
+    SELECT MemberID
+    FROM Membership
+    WHERE Point IN (
+        SELECT MAX(Point)
+        FROM Membership
+    )
+) and O.Quantity IN (
+        SELECT MAX(Quantity)
+        FROM Membership MB,CustomerOrder C,OrderList O,Menu M
+        WHERE MB.MemberID = C.MemberID and C.CustOrderID = O.CustOrderID and O.MenuID = M.MenuID and MB.Point IN (
+        SELECT MAX(Point)
+        FROM MemberShip
+    )
+);
+
+--! 2 ---------------------------------------------------------------------
+SELECT W.ShiftID, Avg(R.Rating) AS AvgOfRating
+FROM Review AS R, CustomerOrder AS C, Workshift AS W
+WHERE (((R.CustOrderID)=C.CustOrderID) And ((C.ShiftID)=W.ShiftID))
+GROUP BY W.ShiftID;
+
+--! 3 ---------------------------------------------------------------------
+SELECT ItemName
+FROM (
+    SELECT S.ItemName,Sum(O.Quantity) AS TQ
+    FROM StockOrderQuantity O,Stock S
+    WHERE O.StockID = S.StockID
+    GROUP BY S.ItemName
+)
+WHERE TQ IN (
+        SELECT Max(TQ)
+        FROM (
+        SELECT Sum(Quantity) AS TQ
+        FROM StockOrderQuantity
+        GROUP BY StockID
+    )
+)
+
+--! 4 ---------------------------------------------------------------------
+SELECT M.MenuName, S.ItemName, R.Quantity AS ItemQuantity, S.Quantity AS StockQuantity
+FROM CustomerOrder AS CO, OrderList AS O, Menu AS M, Recipe AS R, Stock AS S
+WHERE CO.CustOrderID = 1 AND CO.CustOrderID = O.CustOrderID AND O.MenuID = M.MenuID AND M.MenuID = R.MenuID AND R.StockID = S.StockID;
