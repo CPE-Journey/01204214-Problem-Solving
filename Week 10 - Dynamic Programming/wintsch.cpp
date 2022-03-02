@@ -51,12 +51,28 @@ int main(){
         }
     }
 
-    // for(int i=0;i<N;i++){
-    //     cout << compatible[i] << " ";
-    // }
+    for(int i=0;i<N;i++){
+        cout << compatible[i] << " ";
+    }
 
-    // while(maximum_index != N){
-    //     cout << maximum_index << "\n";
-    //     maximum_index = compatible[maximum_index];
-    // }
+    printf("MAX %d\n",maximum_index);
+
+    int current_maximum;
+    for(int i=maximum_index;i<N;i++){
+        current_maximum = i;
+        while(current_maximum != N){
+            cout << current_maximum << "\n";
+            if(start[compatible[current_maximum]] > worklist[current_maximum].first){
+                break;
+            }
+            current_maximum = compatible[current_maximum];
+        }
+        // if(current_maximum == N){
+        //     break;
+        // }
+        // else{
+        //     cout << "No\n";
+        //     continue;
+        // }
+    }
 }
