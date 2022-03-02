@@ -41,7 +41,8 @@ int main(){
             memory[i] = Max(memory[most_compat]+weight[worklist[i].second],memory[i-1]);
         }
         else{
-            memory[i] = weight[worklist[i].second];
+            memory[i] = weight[worklist[i].secon
+            d];
         }
         
         compatible.push_back(most_compat);
