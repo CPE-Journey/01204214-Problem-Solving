@@ -2,9 +2,9 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int N,s,f,w,max_weight,max_len = 0;
+int N,s,f,w,most_compat,max_len = 0,maximum_value=0,maximum_index=-1;
 vector<pair<int,int>> worklist; // {finish,id};
-vector<int> start,weight,memory;
+vector<int> start,weight,memory,compatible;
 
 int Max(int a,int b){
     return a > b ? a : b;
@@ -21,19 +21,42 @@ int main(){
     }
 
     sort(worklist.begin(),worklist.end());
-    memory.resize(max_len+1);
+    memory.resize(N+1);
 
     for(int i=0;i<N;i++){
-        for(int j=0;j<=start[worklist[i].second];j++){
-            max_weight = Max(max_weight,memory[j]);
+        most_compat = N;
+        // printf("START: %d\n",start[worklist[i].second]);
+        for(int j=i;j>=0;j--){
+            // printf("%d\n",worklist[j].first);
+            if(worklist[j].first <= start[worklist[i].second]){
+                // cout << "SELECTED\n";
+                most_compat = j;
+                break;
+            }
         }
-        memory[worklist[i].first] = Max(memory[worklist[i].first],max_weight+weight[worklist[i].second]);
+        if(i > 0){
+            if(memory[most_compat]+weight[worklist[i].second]> memory[i-1]){
+                cout << i << "\n";
+            }
+            memory[i] = Max(memory[most_compat]+weight[worklist[i].second],memory[i-1]);
+        }
+        else{
+            memory[i] = weight[worklist[i].second];
+        }
+        
+        compatible.push_back(most_compat);
+        if(memory[i] > maximum_value){
+            maximum_value = memory[i];
+            maximum_index = i;
+        }
     }
 
-    for(int i=0;i<max_len+1;i++){
-        cout << memory[i] << " ";
-        // for(int j=0;j<i;j++){
-        //     max_weight = Max(max_weight,)
-        // }
-    }
+    // for(int i=0;i<N;i++){
+    //     cout << compatible[i] << " ";
+    // }
+
+    // while(maximum_index != N){
+    //     cout << maximum_index << "\n";
+    //     maximum_index = compatible[maximum_index];
+    // }
 }
