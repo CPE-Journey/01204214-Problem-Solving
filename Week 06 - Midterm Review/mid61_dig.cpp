@@ -3,7 +3,7 @@
 #include <list>
 using namespace std;
 
-int R,C,di,dj,A=1,B=1,X=3,Y=1,min_count=999999,count;
+int R,C,di,dj,A,B,X,Y,min_count=999999;
 char input;
 vector<vector<char>> graph;
 vector<pair<int,int>> dirt;
@@ -18,7 +18,11 @@ void printVector(vector<vector<int>> v){
     cout << "\n";
 }
 
-void BFSTravel(){
+int Min(int a,int b){
+    return a > b ? b : a;
+}
+
+int BFSTravel(){
     vector<vector<int>> visited,level;
     list<pair<int,int>> Queue;
     visited.resize(R,vector<int>(C));
@@ -32,41 +36,42 @@ void BFSTravel(){
         dj = Queue.front().second;
         Queue.pop_front();
 
-        if(graph[di][dj] != '.') continue;
+        if(graph[di][dj] == '#' || graph[di][dj] == '*') continue;
         else if(di == X && dj == Y){
-            cout << level[di][dj];
-            return;
+            return level[di][dj];
         }
 
-        if(di != 0 && !visited[di-1][dj]){
+        if(di != 0 && !visited[di-1][dj] && graph[di-1][dj] != '-' && graph[di][dj] != '-'){
             Queue.push_back(make_pair(di-1,dj));
             visited[di-1][dj] = 1;
             level[di-1][dj] = level[di][dj] + 1;
         }
-        if(di != R-1 && !visited[di+1][dj]){
+        if(di != R-1 && !visited[di+1][dj] && graph[di+1][dj] != '-' && graph[di][dj] != '-'){
             Queue.push_back(make_pair(di+1,dj));
             visited[di+1][dj] = 1;
             level[di+1][dj] = level[di][dj] + 1;
         }
-        if(dj != 0 && !visited[di][dj-1]){
+        if(dj != 0 && !visited[di][dj-1] && graph[di][dj-1] != '|' && graph[di][dj] != '|'){
             Queue.push_back(make_pair(di,dj-1));
             visited[di][dj-1] = 1;
             level[di][dj-1] = level[di][dj] + 1;
         }
-        if(dj != C-1 && !visited[di][dj+1]){
+        if(dj != C-1 && !visited[di][dj+1] && graph[di][dj+1] != '|' && graph[di][dj] != '|'){
             Queue.push_back(make_pair(di,dj+1));
             visited[di][dj+1] = 1;
             level[di][dj+1] = level[di][dj] + 1;
         }
-        // printVector(visited);
     }
-    cout << "Impossible\n";
+    return 999999;
 }
 
 int main(){
     cin >> R >> C;
     graph.resize(R);
     
+    cin >> A >> B >> X >> Y;
+    A--;B--;X--;Y--;
+
     for(int i=0;i<R;i++){
         for(int j=0;j<C;j++){
             cin >> input;
@@ -77,10 +82,20 @@ int main(){
         }
     }
 
+    min_count = Min(min_count,BFSTravel());
     for(int i=0;i<dirt.size();i++){
-        graph[dirt[i].first][dirt[i].second] = '.';
-        BFSTravel();
+        graph[dirt[i].first][dirt[i].second] = '|';
+        min_count = Min(min_count,BFSTravel());
+        graph[dirt[i].first][dirt[i].second] = '-';
+        min_count = Min(min_count,BFSTravel());
         graph[dirt[i].first][dirt[i].second] = '*';
     }
 
+    if(min_count == 999999){
+        cout << -1 << "\n";
+    }
+    else{
+        cout << min_count << "\n";
+    }
+    return 0;
 }

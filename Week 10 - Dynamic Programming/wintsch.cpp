@@ -5,6 +5,7 @@ using namespace std;
 int N,s,f,w,most_compat,max_len = 0,maximum_value=0,maximum_index=-1;
 vector<pair<int,int>> worklist; // {finish,id};
 vector<int> start,weight,memory,compatible;
+vector<vector<int>> prevWork;
 
 int Max(int a,int b){
     return a > b ? a : b;
@@ -12,6 +13,7 @@ int Max(int a,int b){
 
 int main(){
     cin >> N;
+    prevWork.resize(N+1);
     for(int i=0;i<N;i++){
         cin >> s >> f >> w;
         worklist.push_back(make_pair(f,i));
@@ -21,59 +23,43 @@ int main(){
     }
 
     sort(worklist.begin(),worklist.end());
+
     memory.resize(N+1);
+    memory[N] = 0;
 
     for(int i=0;i<N;i++){
         most_compat = N;
-        // printf("START: %d\n",start[worklist[i].second]);
         for(int j=i;j>=0;j--){
-            // printf("%d\n",worklist[j].first);
             if(worklist[j].first <= start[worklist[i].second]){
-                // cout << "SELECTED\n";
                 most_compat = j;
                 break;
             }
         }
         if(i > 0){
-            if(memory[most_compat]+weight[worklist[i].second]> memory[i-1]){
-                cout << i << "\n";
+            if(memory[most_compat]+weight[worklist[i].second] > memory[i-1]){
+            }
+            else{
             }
             memory[i] = Max(memory[most_compat]+weight[worklist[i].second],memory[i-1]);
         }
         else{
-            memory[i] = weight[worklist[i].secon
-            d];
+            memory[i] = weight[worklist[i].second];
         }
-        
-        compatible.push_back(most_compat);
         if(memory[i] > maximum_value){
             maximum_value = memory[i];
             maximum_index = i;
         }
-    }
-
-    for(int i=0;i<N;i++){
-        cout << compatible[i] << " ";
-    }
-
-    printf("MAX %d\n",maximum_index);
-
-    int current_maximum;
-    for(int i=maximum_index;i<N;i++){
-        current_maximum = i;
-        while(current_maximum != N){
-            cout << current_maximum << "\n";
-            if(start[compatible[current_maximum]] > worklist[current_maximum].first){
-                break;
+        if(most_compat != N){
+            for(int j=0;j<prevWork[most_compat].size();j++){
+                prevWork[i].push_back(prevWork[most_compat][j]);
             }
-            current_maximum = compatible[current_maximum];
         }
-        // if(current_maximum == N){
-        //     break;
-        // }
-        // else{
-        //     cout << "No\n";
-        //     continue;
-        // }
+        prevWork[i].push_back(i);
     }
+    cout << maximum_value << "\n";
+    cout << prevWork[maximum_index].size() << "\n";
+    for(int i=0;i<prevWork[maximum_index].size();i++){
+        cout << worklist[prevWork[maximum_index][i]].second+1 << " ";
+    }
+    return 0;
 }
