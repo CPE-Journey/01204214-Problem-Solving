@@ -4,53 +4,45 @@
 using namespace std;
 
 string bipartie(){
-    int N,M,v1,v2,deq,toggle=0;
+    int N,M,v1,v2,deq;
     cin >> N >> M;
     vector<vector<int>> graph(N);
-    vector<vector<int>> team;
-    team.resize(2,vector<int>(N));
-
-    vector<int> visit(N);
-    list<int> queue;
+    vector<int> visited(N);
+    list<int> Queue;
 
     for(int i=0;i<M;i++){
         cin >> v1 >> v2;
-        v1--;
-        v2--;
+        v1--;v2--;
         graph[v1].push_back(v2);
         graph[v2].push_back(v1);
     }
 
-    queue.push_back(0);
-    team[1][0] = 1;
-    while(!queue.empty()){
-        deq = queue.front();
-        queue.pop_front();
-
-        toggle = team[0][deq] ? 0 : 1; // First Time ALways 1
-        visit[deq] = 1;
+    Queue.push_back(0);
+    visited[0] = 1;
+    while(!Queue.empty()){
+        deq = Queue.front();
+        Queue.pop_front();
 
         for(int i=0;i<graph[deq].size();i++){
-            if(visit[graph[deq][i]]){
-                if(team[toggle][graph[deq][i]]){
-                    return "no";
-                }
-                continue;
+            if(!visited[graph[deq][i]]){
+                Queue.push_back(graph[deq][i]);
+                visited[graph[deq][i]] = 3-visited[deq];
             }
-            queue.push_back(graph[deq][i]);
-            team[!toggle][graph[deq][i]] = 1;
+            else{
+                if(visited[deq] == visited[graph[deq][i]]){
+                    return "no\n";
+                }
+            }
         }
     }
-    return "yes";
+    return "yes\n";
 }
 
 int main(){
     int N;
     cin >> N;
-
     for(int i=0;i<N;i++){
-        cout << bipartie() << "\n";
+        cout << bipartie();
     }
-
     return 0;
 }

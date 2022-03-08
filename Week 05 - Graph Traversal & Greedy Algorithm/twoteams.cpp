@@ -1,89 +1,68 @@
 #include <iostream>
 #include <vector>
+#include <list>
 using namespace std;
 
-int N,M,v1,v2,day=0,reach_limit=0;
-vector<vector<int>> graph;
-vector<int> visited,head,depth;
+int N,M,v1,v2,deq,mid;
+vector<vector<int>> edge;
 
-int findHead(int h){
-    if(head[h] == h){
-        return h;
+int isBipartie(int l,int r){
+    vector<vector<int>> graph;
+    vector<int> visited;
+    list<int> Queue;
+    graph.resize(N);
+    visited.resize(N);
+
+    for(int i=l;i<r;i++){
+        graph[edge[i][0]].push_back(edge[i][1]);
+        graph[edge[i][1]].push_back(edge[i][0]);
     }
-    return findHead(head[h]);
+
+    Queue.push_back(edge[l][0]);
+    visited[edge[l][0]] = 1;
+    while(!Queue.empty()){
+        deq = Queue.front();
+        Queue.pop_front();
+
+        for(int i=0;i<graph[deq].size();i++){
+            if(!visited[graph[deq][i]]){
+                Queue.push_back(graph[deq][i]);
+                visited[graph[deq][i]] = 3-visited[deq];
+            }
+            else{
+                if(visited[deq] == visited[graph[deq][i]]){
+                    return 0;
+                }
+            }
+        }
+    }
+    return 1;
 }
 
-void unionHead(int a,int b){
-    if(depth[a] > depth[b]){
-        head[b] = a;
-    }
-    else if(depth[b] > depth[a]){
-        head[a] = b;
+int searchGraph(int start,int end){
+    mid = start + (end-start)/2;
+    if(mid == end || mid == start)
+        return mid;
+    else if(!isBipartie(0,mid)){
+        printf("A (%d %d)\n",start,mid);
+        return searchGraph(start,mid);
     }
     else{
-        head[b] = a;
-        depth[a] += 1;
+        printf("B (%d %d)\n",mid,end);
+        return searchGraph(mid,end);
     }
-}
-
-void showDepth(){
-    for(int i=0;i<=N;i++){
-        cout << visited[i] << " ";
-    }
-    cout << "\n";
-    for(int i=0;i<=N;i++){
-        cout << head[i] << " ";
-    }
-    cout << "\n";
-    for(int i=0;i<=N;i++){
-        cout << depth[i] << " ";
-    }
-    cout << "\n";
 }
 
 int main(){
     cin >> N >> M;
-
-    graph.resize(N+1);
-    for(int i=0;i<=N;i++){
-        visited.push_back(0);
-        head.push_back(i);
-        depth.push_back(0);
-    }
-
     for(int i=0;i<M;i++){
         cin >> v1 >> v2;
-        graph[v1].push_back(v2);
-        if(!visited[v1] && !visited[v2]){
-            visited[v1] = 1;
-            visited[v2] = 2;
-            unionHead(v1,v2);
-            // cout << "1\n";
-        }
-        else if(visited[v1] && visited[v2]){
-            if(visited[v1] == visited[v2] && findHead(v1) == findHead(v2)){
-                // cout << "2.1\n";
-                reach_limit = 1;
-            }
-            else{
-                // cout << "2.2\n";
-                unionHead(v1,v2);
-            }
-        }
-        else if(visited[v1]){
-            visited[v2] = 3-visited[v1];
-            unionHead(v1,v2);
-            // cout << "3\n";
-        }
-        else{
-            visited[v1] = 3-visited[v2];
-            unionHead(v1,v2);
-            // cout << "4\n";
-        }
-        // showDepth();
-        if(!reach_limit){
-            day++;
-        }
+        edge.push_back({v1-1,v2-1});
     }
-    cout << day;
+
+    // for(int i=15850;i<15850=;i++){
+    //     printf("%d %d\n",i,isBipartie(0,i));
+    // }
+
+    cout << searchGraph(0,M+1);
 }

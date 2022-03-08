@@ -42,8 +42,18 @@ int main(){
         }
         input.push_back(S);
     }
-    cout << longest.size() << "\n";
     for(int i=N-1;i>=0;i--){
+        if(input[i] == longest[longest.size()-1]){
+            max_behind = behind[i];
+            break;
+        }
+    }
+    // max_behind = longest[longest.size()-1];
+    cout << longest.size() << "\n";
+
+    for(int i=N-1;i>=0;i--){
+        // cout << i << " " << behind[i] << "\n";
+        // printf("%d %d MAX-Behind: %d\n",i,behind[i],max_behind);
         if(behind[i] == max_behind){
             answer.push_back(input[i]);
             for(int j=0;j<N;j++){
@@ -60,10 +70,15 @@ int main(){
             }
         }
     }
+    for(int i=0;i<longest.size();i++){
+        // cout << longest[i] << " ";
+    }
+    // cout << "\n";
     for(int i=answer.size()-1;i>=0;i--){
         cout << answer[i] << " ";
     }
+    // cout << "\n";
     for(int i=0;i<N;i++){
-        cout << behind[i] << " ";
+        // cout << behind[i] << " ";
     }
 }
