@@ -13,36 +13,42 @@ int max(int a,int b){
 }
 
 int main(){
-    cin >> node >> edge;
-    graph.resize(node);
-    degree.resize(node);
-
     while(true){
-        cin >> v1 >> v2;
-        if(v1 == 0 && v2 == 0)
+        cin >> node >> edge;
+        if(!node && !edge){
             break;
-        
-        graph[v1-1].push_back(v2-1);
-        degree[v2-1] += 1;
-    }
-
-    for(int i=0;i<node;i++){
-        if(degree[i] == 0){
-            Queue.push_back(i);
         }
-    }
+        graph.clear();
+        degree.clear();
+        graph.resize(node);
+        degree.resize(node);
+        for(int i=0;i<edge;i++){
+            cin >> v1 >> v2;
+            graph[v1-1].push_back(v2-1);
+            degree[v2-1] += 1;
+        }
 
-    while(!Queue.empty()){
-        deq = Queue.front();
-        Queue.pop_front();
-        cout << deq+1 << " ";
-
-        for(int i=0;i<graph[deq].size();i++){
-            degree[graph[deq][i]] -= 1;
-            if(degree[graph[deq][i]] == 0){
-                Queue.push_back(graph[deq][i]);
+        for(int i=0;i<node;i++){
+            if(degree[i] == 0){
+                Queue.push_back(i);
             }
         }
+
+        while(!Queue.empty()){
+            deq = Queue.front();
+            Queue.pop_front();
+            cout << deq+1 << " ";
+
+            for(int i=0;i<graph[deq].size();i++){
+                degree[graph[deq][i]] -= 1;
+                if(degree[graph[deq][i]] == 0){
+                    Queue.push_back(graph[deq][i]);
+                }
+            }
+        }
+        cout << "\n";
     }
+
+    
     return 0;
 }

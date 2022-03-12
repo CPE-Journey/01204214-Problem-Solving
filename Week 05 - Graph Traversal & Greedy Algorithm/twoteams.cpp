@@ -3,17 +3,17 @@
 #include <list>
 using namespace std;
 
-int N,M,v1,v2,deq,mid;
-vector<vector<int>> edge;
+long long int N,M,v1,v2,deq,mid;
+vector<vector<long long int>> edge;
 
-int isBipartie(int l,int r){
-    vector<vector<int>> graph;
-    vector<int> visited;
-    list<int> Queue;
+long long int isBipartie(long long int l,long long int r){
+    vector<vector<long long int>> graph;
+    vector<long long int> visited;
+    list<long long int> Queue;
     graph.resize(N);
     visited.resize(N);
 
-    for(int i=l;i<r;i++){
+    for(long long int i=l;i<r;i++){
         graph[edge[i][0]].push_back(edge[i][1]);
         graph[edge[i][1]].push_back(edge[i][0]);
     }
@@ -24,7 +24,7 @@ int isBipartie(int l,int r){
         deq = Queue.front();
         Queue.pop_front();
 
-        for(int i=0;i<graph[deq].size();i++){
+        for(long long int i=0;i<graph[deq].size();i++){
             if(!visited[graph[deq][i]]){
                 Queue.push_back(graph[deq][i]);
                 visited[graph[deq][i]] = 3-visited[deq];
@@ -39,29 +39,29 @@ int isBipartie(int l,int r){
     return 1;
 }
 
-int searchGraph(int start,int end){
+long long int searchGraph(long long int start,long long int end){
     mid = start + (end-start)/2;
     if(mid == end || mid == start)
         return mid;
     else if(!isBipartie(0,mid)){
-        printf("A (%d %d)\n",start,mid);
+        // prlong long intf("A (%d %d)\n",start,mid);
         return searchGraph(start,mid);
     }
     else{
-        printf("B (%d %d)\n",mid,end);
+        // prlong long intf("B (%d %d)\n",mid,end);
         return searchGraph(mid,end);
     }
 }
 
 int main(){
     cin >> N >> M;
-    for(int i=0;i<M;i++){
+    for(long long int i=0;i<M;i++){
         cin >> v1 >> v2;
         edge.push_back({v1-1,v2-1});
     }
 
-    // for(int i=15850;i<15850=;i++){
-    //     printf("%d %d\n",i,isBipartie(0,i));
+    // for(long long int i=15850;i<15850=;i++){
+    //     prlong long intf("%d %d\n",i,isBipartie(0,i));
     // }
 
     cout << searchGraph(0,M+1);
