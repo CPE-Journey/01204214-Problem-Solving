@@ -121,6 +121,27 @@ WHERE NOT EXISTS (
     WHERE M.MemberID = O.MemberID 
 );
 
+SELECT *
+FROM(
+    SELECT MenuName,Sum(Quantity) as TotalQuantity
+    FROM OrderList O,Menu M
+    WHERE O.MenuID = M.MenuID
+    GROUP BY MenuName
+)
+WHERE TotalQuantity IN (
+    SELECT Max(TotalQuantity)
+    FROM(
+        SELECT Sum(Quantity) as TotalQuantity
+        FROM OrderList O,Menu M
+        WHERE O.MenuID = M.MenuID
+        GROUP BY MenuName
+    )
+)
+
+SELECT MenuName,ItemName,R.Quantity as RecipeRequired,S.Quantity as StockRemaning
+FROM Menu M,Recipe R,Stock S
+WHERE M.MenuID = R.MenuID and R.StockID = S.StockID
+
 --TODO --------------------------------------------------------------------
 
 --* 1 ---------------------------------------------------------------------

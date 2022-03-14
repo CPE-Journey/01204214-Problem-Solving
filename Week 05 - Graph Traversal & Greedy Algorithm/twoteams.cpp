@@ -3,35 +3,41 @@
 #include <list>
 using namespace std;
 
-long long int N,M,v1,v2,deq,mid;
-vector<vector<long long int>> edge;
+int N,M,v1,v2,deq,mid;
+vector<vector<int>> edge;
 
-long long int isBipartie(long long int l,long long int r){
-    vector<vector<long long int>> graph;
-    vector<long long int> visited;
-    list<long long int> Queue;
+int isBipartie(int l,int r){
+    vector<vector<int>> graph;
+    vector<int> visited,existed;
+    list<int> Queue;
     graph.resize(N);
     visited.resize(N);
+    existed.resize(N);
 
-    for(long long int i=l;i<r;i++){
+    for(int i=l;i<r;i++){
         graph[edge[i][0]].push_back(edge[i][1]);
         graph[edge[i][1]].push_back(edge[i][0]);
+        existed[edge[i][0]] = 1;
+        existed[edge[i][1]] = 1;
     }
 
-    Queue.push_back(edge[l][0]);
-    visited[edge[l][0]] = 1;
-    while(!Queue.empty()){
-        deq = Queue.front();
-        Queue.pop_front();
+    for(int i=0;i<N;i++){
+        if(!existed[i] || visited[i]) continue;
+        Queue.push_back(i);
+        visited[i] = 1;
+        while(!Queue.empty()){
+            deq = Queue.front();
+            Queue.pop_front();
 
-        for(long long int i=0;i<graph[deq].size();i++){
-            if(!visited[graph[deq][i]]){
-                Queue.push_back(graph[deq][i]);
-                visited[graph[deq][i]] = 3-visited[deq];
-            }
-            else{
-                if(visited[deq] == visited[graph[deq][i]]){
-                    return 0;
+            for(int i=0;i<graph[deq].size();i++){
+                if(!visited[graph[deq][i]]){
+                    Queue.push_back(graph[deq][i]);
+                    visited[graph[deq][i]] = 3-visited[deq];
+                }
+                else{
+                    if(visited[deq] == visited[graph[deq][i]]){
+                        return 0;
+                    }
                 }
             }
         }
@@ -39,29 +45,29 @@ long long int isBipartie(long long int l,long long int r){
     return 1;
 }
 
-long long int searchGraph(long long int start,long long int end){
+int searchGraph(int start,int end){
     mid = start + (end-start)/2;
     if(mid == end || mid == start)
         return mid;
     else if(!isBipartie(0,mid)){
-        // prlong long intf("A (%d %d)\n",start,mid);
+        // printf("A (%d %d)\n",start,mid);
         return searchGraph(start,mid);
     }
     else{
-        // prlong long intf("B (%d %d)\n",mid,end);
+        // printf("B (%d %d)\n",mid,end);
         return searchGraph(mid,end);
     }
 }
 
 int main(){
     cin >> N >> M;
-    for(long long int i=0;i<M;i++){
+    for(int i=0;i<M;i++){
         cin >> v1 >> v2;
         edge.push_back({v1-1,v2-1});
     }
 
-    // for(long long int i=15850;i<15850=;i++){
-    //     prlong long intf("%d %d\n",i,isBipartie(0,i));
+    // for(int i=15850;i<15850=;i++){
+    //     printf("%d %d\n",i,isBipartie(0,i));
     // }
 
     cout << searchGraph(0,M+1);

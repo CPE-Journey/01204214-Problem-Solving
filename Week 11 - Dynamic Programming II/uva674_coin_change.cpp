@@ -3,6 +3,7 @@
 using namespace std;
 
 int N,coin,result;
+string input;
 vector<int> memory,type = {1,5,10,25,50};
 
 int main(){
@@ -15,9 +16,8 @@ int main(){
             }
         }
     }
-    cin >> N;
-    for(int i=0;i<N;i++){
-        cin >> coin;
+    while(getline(cin,input)){
+        coin = stoi(input);
         cout << memory[coin] << "\n";
     }
 }
