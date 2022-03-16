@@ -50,11 +50,9 @@ int searchGraph(int start,int end){
     if(mid == end || mid == start)
         return mid;
     else if(!isBipartie(0,mid)){
-        // printf("A (%d %d)\n",start,mid);
         return searchGraph(start,mid);
     }
     else{
-        // printf("B (%d %d)\n",mid,end);
         return searchGraph(mid,end);
     }
 }
@@ -65,10 +63,6 @@ int main(){
         cin >> v1 >> v2;
         edge.push_back({v1-1,v2-1});
     }
-
-    // for(int i=15850;i<15850=;i++){
-    //     printf("%d %d\n",i,isBipartie(0,i));
-    // }
-
     cout << searchGraph(0,M+1);
+    return 0;
 }

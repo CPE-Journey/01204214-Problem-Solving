@@ -3,60 +3,54 @@
 #include <vector>
 using namespace std;
 
-int N,M,K,v1,v2,pathFound;
-vector<vector<int>> path;
-vector<int> visit;
-list<int> Stack;
+int N,M,K,v1,v2,h1,h2;
+vector<int> head,depth;
 
-void DFS(int start,int end){
-    visit[start] = 1;
-    Stack.push_back(start);
-    for(int i=0;i<path[start].size();i++){
-        if(path[start][i] == end){
-            pathFound = 1;
-            return;
-        }
-        else if(visit[path[start][i]]) continue;
-        DFS(path[start][i],end);
-    }
+int findHead(int n){
+    return head[n] == n ? n : findHead(head[n]);
 }
 
-int findPath(int start,int end){
-    pathFound = 0;
-    for(int i=0;i<N;i++){
-        visit[i] = 0;
+void unionHead(int a,int b){
+    if(depth[a] > depth[b]){
+        head[b] = a;
     }
-    DFS(start,end);
-    return pathFound;
-}
-
-void printPath(){
-    for(int i=0;i<path.size();i++){
-        cout << i << ": ";
-        for(int j=0;j<path[i].size();j++){
-            cout << path[i][j] << " ";
-        }
-        cout << "\n";
+    else if(depth[a] < depth[b]){
+        head[a] = b;
+    }
+    else{
+        head[b] = a;
+        depth[a] += 1;
     }
 }
 
 int main(){
     cin >> N >> M >> K;
-    path.resize(N);
-    visit.resize(N);
+
+    for(int i=0;i<N;i++){
+        head.push_back(i);
+        depth.push_back(0);
+    }
     
     for(int i=0;i<M;i++){
         cin >> v1 >> v2;
-        path[v1-1].push_back(v2-1);
-        path[v2-1].push_back(v1-1);
+        h1 = findHead(v1-1);
+        // printf("PASS\n");
+        h2 = findHead(v2-1);
+        // printf("(%d %d)\n",h1,h2);
+        if(h1 != h2){
+            unionHead(h1,h2);
+        }
     }
 
     for(int i=0;i<K;i++){
         cin >> v1 >> v2;
-        cout << findPath(v1-1,v2-1) << "\n";
-        while(!Stack.empty()){
-            visit[Stack.back()] = 0;
-            Stack.pop_back();
+        h1 = findHead(v1-1);
+        h2 = findHead(v2-1);
+        if(h1 == h2){
+            cout << "1\n";
+        }
+        else{
+            cout << "0\n";
         }
     }
     return 0;
