@@ -3,46 +3,63 @@
 #include <list>
 using namespace std;
 
-int N,M,S,T,v1,v2,c,deq,c_level=0;
-int passRed = 0,passBlack = 0;
-vector<vector<int>> graph;
-vector<int> visit,level;
-list<int> Queue;
+typedef struct{
+    int node,color;
+}Edge;
 
-void BFS(int start,int end){
-    passRed = 0;
-    passBlack = 0;
-    visit[start] = 1;
-    Queue.push_back(start);
+int N,M,S,T,v1,v2,c,deq,current_node,current_color,result;
+vector<vector<Edge>> graph;
+
+int BFS(int selected_color){
+    list<int> Queue;
+    vector<int> visited(N);
+
+    Queue.push_back(S);
+    visited[S] = 1;
     while(!Queue.empty()){
         deq = Queue.front();
         Queue.pop_front();
+        
+        if(deq == T){
+            return visited[deq]-1;
+        }
 
         for(int i=0;i<graph[deq].size();i++){
-            if(visit[graph[deq][i]]) continue;
-            Queue.push_back(graph[deq][i]);
-            visit[graph[deq][i]] = 1;
-            level[graph[deq][i]] = c_level+1;
+            current_node = graph[deq][i].node;
+            current_color = graph[deq][i].color;
+            // printf("DQ: %d Node: %d Color: %d [!%d && (%d == 0 || %d == %d)]\n",deq,current_node,current_color,visited[current_node],current_color,current_color,selected_color);
+            if(!visited[current_node] && (current_color == 0 || current_color == selected_color)){
+                Queue.push_back(current_node);
+                visited[current_node] = visited[deq]+1;
+            }
         }
-        c_level++;
     }
+    return 99999;
+}
+
+int Min(int a,int b){
+    return a < b ? a : b;
+}
+
+int MinOf3(int a,int b,int c){
+    return Min(Min(a,b),c);
 }
 
 int main(){
     cin >> N >> M >> S >> T;
-
-    graph.resize(N,vector<int>(N));
-    visit.resize(N);
-    level.resize(N);
+    S--;T--;
+    graph.resize(N);
 
     for(int i=0;i<M;i++){
         cin >> v1 >> v2 >> c;
-        graph[v1-1][v2-1] = c+1;
-        graph[v2-1][v1-1] = c+1;
-
-        //  0 - Can't reach
-        //  1 - No Color
-        //  2 - Red Bridge
-        //  3 - Black Bridge
+        graph[v1-1].push_back({v2-1,c});
+        graph[v2-1].push_back({v1-1,c});
     }
+
+    result = MinOf3(BFS(0),BFS(1),BFS(2));
+
+    if(result == 99999)
+        cout << "-1\n";
+    else
+        cout << result << "\n";
 }
