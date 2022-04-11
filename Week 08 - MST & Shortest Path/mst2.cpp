@@ -4,7 +4,6 @@
 using namespace std;
 
 int N,M,v1,v2,weight,pathLength=0,h1,h2;
-// vector<vector<int>> graph;
 vector<pair<int,pair<int,int>>> tree;
 vector<int> head,depth;
 
