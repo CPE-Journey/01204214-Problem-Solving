@@ -2,8 +2,8 @@
 #include <vector>
 using namespace std;
 
-int N,S,isFound,max_behind=-1000001,prevNum;
-vector<int> longest,behind,input,answer;
+int N,input,maxNum,maxSeq=0,last=0;
+vector<int> sequence,previous,optimal,answer;
 
 int Max(int a,int b){
     return a > b ? a : b;
@@ -11,74 +11,37 @@ int Max(int a,int b){
 
 int main(){
     cin >> N;
+    previous.resize(N);
+    optimal.resize(N);
     for(int i=0;i<N;i++){
-        cin >> S;
-        isFound = 0;
-        for(int j=0;j<longest.size();j++){
-            if(longest[j] >= S){
-                longest[j] = S;
-                isFound = 1;
-                if(j==0){
-                    behind.push_back(-1000001);
-                }
-                else{
-                    prevNum = longest[j-1];
-                    behind.push_back(prevNum);
-                    max_behind = Max(max_behind,prevNum);
-                }
-                break;
+        cin >> input;
+        sequence.push_back(input);
+    }
+    for(int i=0;i<N;i++){
+        maxNum = 0;
+        for(int j=0;j<i;j++){
+            if(sequence[j] < sequence[i] && optimal[j] >= maxNum){
+                previous[i] = j;
+                maxNum = optimal[j];
             }
         }
-        if(!isFound){
-            longest.push_back(S);
-            if(i==0){
-                behind.push_back(-1000001);
-            }
-            else{
-                prevNum = longest[longest.size()-2];
-                behind.push_back(prevNum);
-                max_behind = Max(max_behind,prevNum);
-            }
-        }
-        input.push_back(S);
+        optimal[i] = maxNum + 1;
     }
-    for(int i=N-1;i>=0;i--){
-        if(input[i] == longest[longest.size()-1]){
-            max_behind = behind[i];
-            break;
+    for(int i=0;i<N;i++){
+        if(optimal[i] > maxSeq){
+            maxSeq = optimal[i];
+            last = i;
         }
     }
-    // max_behind = longest[longest.size()-1];
-    cout << longest.size() << "\n";
-
-    for(int i=N-1;i>=0;i--){
-        // cout << i << " " << behind[i] << "\n";
-        // printf("%d %d MAX-Behind: %d\n",i,behind[i],max_behind);
-        if(behind[i] == max_behind){
-            answer.push_back(input[i]);
-            for(int j=0;j<N;j++){
-                if(input[j] == max_behind){
-                    max_behind = behind[j];
-                    if(behind[j] == -1000001){
-                        answer.push_back(input[j]);
-                    }
-                    break;
-                }
-            }
-            if(max_behind == -1000001){
-                break;
-            }
-        }
+    int i=0,count=maxSeq;
+    while(count > 0){
+        answer.push_back(sequence[last]);
+        last = previous[last];
+        count--;
     }
-    for(int i=0;i<longest.size();i++){
-        // cout << longest[i] << " ";
-    }
-    // cout << "\n";
-    for(int i=answer.size()-1;i>=0;i--){
+    cout << maxSeq << "\n";
+    for(int i=maxSeq-1;i>=0;i--){
         cout << answer[i] << " ";
     }
-    // cout << "\n";
-    for(int i=0;i<N;i++){
-        // cout << behind[i] << " ";
-    }
+    cout << "\n";
 }

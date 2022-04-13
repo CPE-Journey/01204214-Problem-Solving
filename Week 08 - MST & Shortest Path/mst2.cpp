@@ -60,7 +60,6 @@ int main(){
             pathLength += tree[i].first;
             unionHead(h1,h2);
         }
-        // show();
     }
 
     cout << pathLength;
