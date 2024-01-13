@@ -18,7 +18,7 @@ int main(){
     }
 
     for(int i=0;i<N;i++){
-        res = setPositive(food[i]-i);
+        res = abs(food[i]-i);
         diff[res] += 1;
         if(diff[res] > max_eat){
             max_eat = diff[res];
